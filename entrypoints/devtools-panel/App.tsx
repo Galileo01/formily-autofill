@@ -54,8 +54,6 @@ function App() {
     }
   }, [])
 
-  console.log('dev APP', formDataSource)
-
   return <DevtoolPanel formDataSource={formDataSource} />
 }
 

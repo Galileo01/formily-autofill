@@ -20,9 +20,9 @@ importers:
       '@tailwindcss/vite':
         specifier: ^4.0.5
         version: 4.0.5(vite@6.0.8(@types/node@22.10.7)(jiti@2.4.2)(less@4.2.2)(lightningcss@1.29.1))
-      '@webext-core/messaging':
-        specifier: ^2.2.0
-        version: 2.2.0
+      clsx:
+        specifier: ^2.1.1
+        version: 2.1.1
       react:
         specifier: ^19.0.0
         version: 19.0.0
@@ -39,6 +39,9 @@ importers:
       '@types/chrome':
         specifier: ^0.0.280
         version: 0.0.280
+      '@types/eslint-config-prettier':
+        specifier: ^6.11.3
+        version: 6.11.3
       '@types/react':
         specifier: ^19.0.1
         version: 19.0.7
@@ -587,10 +590,6 @@ packages:
   '@jridgewell/trace-mapping@0.3.25':
     resolution: {integrity: sha512-vNk6aEwybGtawWmy/PzwnGDOjCkLWSD2wqvjGGAgOAwCGWySYXfYoxt00IJkTF+8Lb57DwOb3Aa0o9CApepiYQ==}
 
-  '@lukeed/csprng@1.1.0':
-    resolution: {integrity: sha512-Z7C/xXCiGWsg0KuKsHTKJxbWhpI3Vs5GwLfOean7MGyVFGqdRgBbAjOCh6u4bbjPc/8MJ2pZmK/0DLdCbivLDA==}
-    engines: {node: '>=8'}
-
   '@microlink/react-json-view@1.24.0':
     resolution: {integrity: sha512-xrOBvWUR05Pe1x/H7op/yrLFpmf+VjMc5acu7pQpfS70Pux6AmoI+sO7jf2e76OYv27TOvt0TnYSXc3OtjH3Bg==}
     peerDependencies:
@@ -847,6 +846,9 @@ packages:
   '@types/chrome@0.0.280':
     resolution: {integrity: sha512-AotSmZrL9bcZDDmSI1D9dE7PGbhOur5L0cKxXd7IqbVizQWCY4gcvupPUVsQ4FfDj3V2tt/iOpomT9EY0s+w1g==}
 
+  '@types/eslint-config-prettier@6.11.3':
+    resolution: {integrity: sha512-3wXCiM8croUnhg9LdtZUJQwNcQYGWxxdOWDjPe1ykCqJFPVpzAKfs/2dgSoCtAvdPeaponcWPI7mPcGGp9dkKQ==}
+
   '@types/estree@1.0.6':
     resolution: {integrity: sha512-AYnb1nQyY49te+VRAVgmzfcgjYS91mY5P0TKUDCLEM+gNnA+3T6rWITXRLYCpahpqSQbN5cE+gHpnPyXjHWxcw==}
 
@@ -952,9 +954,6 @@ packages:
 
   '@webext-core/match-patterns@1.0.3':
     resolution: {integrity: sha512-NY39ACqCxdKBmHgw361M9pfJma8e4AZo20w9AY+5ZjIj1W2dvXC8J31G5fjfOGbulW9w4WKpT8fPooi0mLkn9A==}
-
-  '@webext-core/messaging@2.2.0':
-    resolution: {integrity: sha512-CRKFSH8ZAp55QpzfseOO/RlW6fAVSGWYNJK1j23khB855Ba9wHu8PB3uuqMVZtfEAwAmsw/2U8HIkony5adFBQ==}
 
   '@wxt-dev/module-react@1.1.2':
     resolution: {integrity: sha512-UO7l7/Sf4+d1ijkizKGS4HFfkpRxhXgQ3BTJRYRijQS83kKXG+UfAG146Q+Rb5Ji87JF8UIO085EWXkhlM1OHg==}
@@ -1258,6 +1257,10 @@ packages:
   clone@1.0.4:
     resolution: {integrity: sha512-JQHZ2QMW6l3aH/j6xCqQThY/9OH4D/9ls34cgkUBiEeocRTU04tHfKPBsUK1PqZCUQM7GiA0IIXJSuXHI64Kbg==}
     engines: {node: '>=0.8'}
+
+  clsx@2.1.1:
+    resolution: {integrity: sha512-eYm0QWBtUrBWZWG0d386OGAw16Z995PiOVo2B7bjWSbHedGl5e0ZWaq65kOGgUSNesEIDkB9ISbTg/JK9dhCZA==}
+    engines: {node: '>=6'}
 
   color-convert@1.9.3:
     resolution: {integrity: sha512-QfAUtd+vFdAtFQcC8CCyYt1fYWxSqAiK2cSD6zDB8N3cpsEBAvRxp9zOGg6G/SHHJYAT88/az/IuDGALsNVbGg==}
@@ -3072,10 +3075,6 @@ packages:
     engines: {node: '>=10'}
     hasBin: true
 
-  serialize-error@11.0.3:
-    resolution: {integrity: sha512-2G2y++21dhj2R7iHAdd0FIzjGwuKZld+7Pl/bTU6YIkrC2ZMbVUjm+luj6A6V34Rv9XfKJDKpTWu9W4Gse1D9g==}
-    engines: {node: '>=14.16'}
-
   set-function-length@1.2.2:
     resolution: {integrity: sha512-pgRc4hJ4/sNjWCSS9AmnS40x3bNMDTknHgL5UaMBTMyJnU90EgWh1Rz+MC9eFu4BuN/UwZjKQuY/1v3rM7HMfg==}
     engines: {node: '>= 0.4'}
@@ -3360,10 +3359,6 @@ packages:
   uhyphen@0.2.0:
     resolution: {integrity: sha512-qz3o9CHXmJJPGBdqzab7qAYuW8kQGKNEuoHFYrBwV6hWIMcpAmxDLXojcHfFr9US1Pe6zUswEIJIbLI610fuqA==}
 
-  uid@2.0.2:
-    resolution: {integrity: sha512-u3xV3X7uzvi5b1MncmZo3i2Aw222Zk1keqLA1YkHldREkAhAqi65wuPfe7lHx8H/Wzy+8CE7S7uS3jekIM5s8g==}
-    engines: {node: '>=8'}
-
   unbox-primitive@1.1.0:
     resolution: {integrity: sha512-nWJ91DjeOkej/TA8pXQ3myruKpKEYgqvpw9lz4OPHj/NWFNluYrjbz9j01CJ8yKQd2g4jFoOkINCTW2I5LEEyw==}
     engines: {node: '>= 0.4'}
@@ -3550,9 +3545,6 @@ packages:
   web-ext-run@0.2.2:
     resolution: {integrity: sha512-GD59q5/1wYQJXTHrljMZaBa3cCz+Jj3FMDLYgKyAa34TPcHSuMaGqp7TcLJ66PCe43C3hmbEAZd8QCpAB34eiw==}
     engines: {node: '>=18.0.0', npm: '>=8.0.0'}
-
-  webextension-polyfill@0.10.0:
-    resolution: {integrity: sha512-c5s35LgVa5tFaHhrZDnr3FpQpjj1BB+RXhLTYUxGqBVN460HkbM8TBtEqdXWbpTKfzwCcjAZVF7zXCYSKtcp9g==}
 
   webextension-polyfill@0.12.0:
     resolution: {integrity: sha512-97TBmpoWJEE+3nFBQ4VocyCdLKfw54rFaJ6EVQYLBCXqCIpLSZkwGgASpv4oPt9gdKCJ80RJlcmNzNn008Ag6Q==}
@@ -4103,8 +4095,6 @@ snapshots:
       '@jridgewell/resolve-uri': 3.1.2
       '@jridgewell/sourcemap-codec': 1.5.0
 
-  '@lukeed/csprng@1.1.0': {}
-
   '@microlink/react-json-view@1.24.0(@types/react@19.0.7)(react-dom@19.0.0(react@19.0.0))(react@19.0.0)':
     dependencies:
       react: 19.0.0
@@ -4301,6 +4291,8 @@ snapshots:
       '@types/filesystem': 0.0.36
       '@types/har-format': 1.2.16
 
+  '@types/eslint-config-prettier@6.11.3': {}
+
   '@types/estree@1.0.6': {}
 
   '@types/filesystem@0.0.36':
@@ -4437,12 +4429,6 @@ snapshots:
       is-potential-custom-element-name: 1.0.1
 
   '@webext-core/match-patterns@1.0.3': {}
-
-  '@webext-core/messaging@2.2.0':
-    dependencies:
-      serialize-error: 11.0.3
-      uid: 2.0.2
-      webextension-polyfill: 0.10.0
 
   '@wxt-dev/module-react@1.1.2(vite@6.0.8(@types/node@22.10.7)(jiti@2.4.2)(less@4.2.2)(lightningcss@1.29.1))(wxt@0.19.25(@types/node@22.10.7)(less@4.2.2)(lightningcss@1.29.1)(rollup@4.31.0))':
     dependencies:
@@ -4791,6 +4777,8 @@ snapshots:
       wrap-ansi: 7.0.0
 
   clone@1.0.4: {}
+
+  clsx@2.1.1: {}
 
   color-convert@1.9.3:
     dependencies:
@@ -6800,10 +6788,6 @@ snapshots:
 
   semver@7.6.3: {}
 
-  serialize-error@11.0.3:
-    dependencies:
-      type-fest: 2.19.0
-
   set-function-length@1.2.2:
     dependencies:
       define-data-property: 1.1.4
@@ -7126,10 +7110,6 @@ snapshots:
 
   uhyphen@0.2.0: {}
 
-  uid@2.0.2:
-    dependencies:
-      '@lukeed/csprng': 1.1.0
-
   unbox-primitive@1.1.0:
     dependencies:
       call-bound: 1.0.3
@@ -7334,8 +7314,6 @@ snapshots:
       - bufferutil
       - supports-color
       - utf-8-validate
-
-  webextension-polyfill@0.10.0: {}
 
   webextension-polyfill@0.12.0: {}
 

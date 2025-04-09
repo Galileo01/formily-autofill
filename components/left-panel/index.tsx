@@ -29,8 +29,8 @@ const renderTitle: TreeProps['renderTitle'] = (props) => {
 
   return (
     <span>
-      <span className="text-black">{title}</span>
-      <span className="text-zinc-500">
+      <span>{title}</span>
+      <span>
         {dataRef?.path
           ? `  ${[dataRef?.data?.displayName, dataRef?.data?.title].filter((item) => item).join(' ')}`
           : ''}
@@ -43,6 +43,7 @@ const LeftPanel = (props: LeftPanelProps) => {
   const { formDataSource, onTreeSelect } = props
 
   const [activeTab, setActiveTab] = React.useState<string | undefined>()
+  const [selectedKeys, setSelectedKeys] = React.useState<string[]>([])
   const [treeAllData, setTreeAllData] = React.useState<TreeDataType[]>([])
   const [inputValue, setInputValue] = React.useState('')
 
@@ -64,11 +65,11 @@ const LeftPanel = (props: LeftPanelProps) => {
     [formDataSource, onTreeSelect]
   )
 
-  const handleTreeSelect = (selectedKeys: string[]) => {
+  const handleTreeSelect = (_selectedKeys: string[]) => {
     const [id, index] = activeTab!.split('-')
     const formStoreItem = formDataSource[Number(index)]
-    console.log('dev onSelect', formStoreItem, selectedKeys[0])
-    onTreeSelect(formStoreItem, selectedKeys[0])
+    onTreeSelect(formStoreItem, _selectedKeys[0])
+    setSelectedKeys(_selectedKeys)
   }
 
   // 初始化数据 刷新数据
@@ -98,6 +99,7 @@ const LeftPanel = (props: LeftPanelProps) => {
         return (
           <TabPane key={`${item.id}-${index}`} title={`Form${index + 1}`}>
             <Input.Search placeholder="Search" className={'mb-2'} value={inputValue} onChange={setInputValue} />
+            {/* @ts-expect-error 忽略 预期之外的 Tree 非JSX问题 */}
             <Tree
               autoExpandParent
               treeData={treeData}
@@ -105,6 +107,7 @@ const LeftPanel = (props: LeftPanelProps) => {
                 key: 'path',
                 title: 'name',
               }}
+              selectedKeys={selectedKeys}
               onSelect={handleTreeSelect}
               renderTitle={renderTitle}
             />
