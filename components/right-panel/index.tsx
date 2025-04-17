@@ -1,27 +1,23 @@
 import * as React from 'react'
 
-import ReactJson from '@microlink/react-json-view'
+import { Tabs } from '@arco-design/web-react'
 
-export type RightPanelProps = {
-  treeData: any
-}
+import TreeInfo, { TreeInfoProps } from './tree-info'
+
+import styles from './index.module.less'
+
+const { TabPane } = Tabs
+
+export type RightPanelProps = TreeInfoProps
 
 const RightPanel = (props: RightPanelProps) => {
   const { treeData } = props
-  console.log('dev treeData', treeData)
   return (
-    <div className="w-[50%] shrink-0 overflow-y-auto p-4">
-      <ReactJson
-        src={treeData}
-        name={treeData && treeData.displayName}
-        displayDataTypes={false}
-        sortKeys={true}
-        onEdit={false}
-        onAdd={false}
-        onDelete={false}
-        iconStyle="square"
-      />
-    </div>
+    <Tabs type="card" className={styles['form-tabs']}>
+      <TabPane title="表单信息" key="tree_info">
+        <TreeInfo treeData={treeData} />
+      </TabPane>
+    </Tabs>
   )
 }
 

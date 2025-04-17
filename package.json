@@ -1,6 +1,6 @@
 {
   "name": "FormilyAutofill",
-  "description": "manifest.json description",
+  "description": "扩展/兼容 formily_devtool ，新增 mockjs 规则生成 自动填入form 、手动输入、导出配置、AI辅助生成(未来) 等功能",
   "private": true,
   "version": "0.0.0",
   "type": "module",
@@ -19,7 +19,7 @@
     "@formily/shared": "^2.3.2",
     "@microlink/react-json-view": "^1.24.0",
     "@tailwindcss/vite": "^4.0.5",
-    "@webext-core/messaging": "^2.2.0",
+    "clsx": "^2.1.1",
     "react": "^19.0.0",
     "react-dom": "^19.0.0"
   },
@@ -27,6 +27,7 @@
     "@arco-plugins/vite-react": "^1.3.3",
     "@eslint/js": "^9.20.0",
     "@types/chrome": "^0.0.280",
+    "@types/eslint-config-prettier": "^6.11.3",
     "@types/react": "^19.0.1",
     "@types/react-dom": "^19.0.2",
     "@wxt-dev/module-react": "^1.1.2",

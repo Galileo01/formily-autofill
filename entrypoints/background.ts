@@ -1,8 +1,6 @@
 export default defineBackground(() => {
   const connections: Record<string, chrome.runtime.Port> = {}
 
-  console.log('Hello background!', { id: browser.runtime.id })
-
   chrome.runtime.onConnect.addListener(function (port) {
     if (port.name === '@formily-autofill') {
       const extensionListener = function (message: any) {
