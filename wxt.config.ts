@@ -4,12 +4,12 @@ import tailwindcss from '@tailwindcss/vite'
 
 // See https://wxt.dev/api/config.html
 export default defineConfig({
-  extensionApi: 'chrome',
+  srcDir: 'src',
   modules: ['@wxt-dev/module-react'],
   vite: () => ({
     plugins: [vitePluginForArco(), tailwindcss()],
   }),
-  runner: {
+  webExt: {
     startUrls: [
       'https://formilyjs.org/zh-CN/guide/scenes/login-register',
       'https://formilyjs.org/zh-CN/guide/advanced/calculator',
