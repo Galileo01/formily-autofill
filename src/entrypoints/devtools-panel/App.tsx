@@ -27,7 +27,7 @@ function App() {
         Object.keys(formDataSourceRef.current).map((key) => ({
           id: key,
           form: formDataSourceRef.current[key],
-        }))
+        })),
       )
     }
 

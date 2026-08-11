@@ -7,6 +7,7 @@ export default defineConfig({
   srcDir: 'src',
   modules: ['@wxt-dev/module-react'],
   vite: () => ({
+    envPrefix: ['WXT_', 'OPENROUTER_'],
     plugins: [vitePluginForArco(), tailwindcss()],
   }),
   webExt: {
@@ -19,7 +20,7 @@ export default defineConfig({
     //  chromium
     chromiumArgs: ['--auto-open-devtools-for-tabs'],
   },
-  manifest: {
+  manifest: ({ manifestVersion }) => ({
     // inject.js 注入脚本 必须手动 加入到 web_accessible_resources
     web_accessible_resources: [
       {
@@ -28,5 +29,9 @@ export default defineConfig({
       },
     ],
     permissions: ['storage', 'clipboardWrite', 'clipboardRead'],
-  },
+    host_permissions: ['https://openrouter.ai/*'],
+    ...(manifestVersion === 3
+      ? { optional_host_permissions: ['https://*/*', 'http://*/*'] }
+      : { optional_permissions: ['https://*/*', 'http://*/*'] }),
+  }),
 })
