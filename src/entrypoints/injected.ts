@@ -1,3 +1,6 @@
+import type { ApplyFillResult, FillOperation, FormInstanceId } from '@/ai/types'
+import { applyFillOperations } from '@/ai/apply'
+
 export type HooKType = {
   hasFormilyInstance: boolean
   hasOpenDevtools: boolean
@@ -6,14 +9,16 @@ export type HooKType = {
   closeDevtools: () => void
   setVm: (fieldId: string, formId: string) => void
   update: () => void
-  unmount: (id: number) => void
-  inject: (id: number, form: any) => void
+  unmount: (id: FormInstanceId) => void
+  inject: (id: FormInstanceId, form: any) => void
+  setValues: (formId: FormInstanceId, values: Record<string, any>) => void
+  applyFillOperations: (formId: FormInstanceId, operations: FillOperation[]) => ApplyFillResult
 }
 
 export default defineUnlistedScript(() => {
-  const serializeObject = (obj: any) => {
+  const serializeObject = (obj: any): any => {
     const seens = new WeakMap()
-    const serialize = (obj: any) => {
+    const serialize = (obj: any): any => {
       if (Array.isArray(obj)) {
         return obj.map(serialize)
       } else if (typeof obj === 'function') {
@@ -32,8 +37,8 @@ export default defineUnlistedScript(() => {
           return obj.toJSON()
         } else {
           seens.set(obj, true)
-          const result = {}
-          for (let key in obj) {
+          const result: Record<string, any> = {}
+          for (const key in obj) {
             result[key] = serialize(obj[key])
           }
           seens.set(obj, false)
@@ -80,13 +85,15 @@ export default defineUnlistedScript(() => {
       this.hasOpenDevtools = false
     },
     setVm(fieldId: string, formId: string) {
+      void fieldId
+      void formId
       // if (fieldId) {
       //   globalThis.$vm = this.store[formId].fields[fieldId];
       // } else {
       //   globalThis.$vm = this.store[formId];
       // }
     },
-    inject(id: number, form: any) {
+    inject(id: FormInstanceId, form: any) {
       this.hasFormilyInstance = true
       this.store[id] = form
       send({
@@ -127,12 +134,27 @@ export default defineUnlistedScript(() => {
         })
       })
     },
-    unmount(id: number) {
+    unmount(id: FormInstanceId) {
       delete this.store[id]
       send({
         type: 'uninstall',
         id,
       })
+    },
+    setValues(formId: FormInstanceId, values: Record<string, any>) {
+      const form = this.store[formId]
+      if (!form) {
+        console.warn('[FormilyAutofill] form not found for id:', formId)
+        return
+      }
+      try {
+        form.setValues(values)
+      } catch (e) {
+        console.warn('[FormilyAutofill] setValues failed:', e)
+      }
+    },
+    applyFillOperations(formId: FormInstanceId, operations: FillOperation[]) {
+      return applyFillOperations(this.store[formId], formId, operations, serializeObject)
     },
   }
 

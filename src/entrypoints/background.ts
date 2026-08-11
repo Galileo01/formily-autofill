@@ -1,5 +1,13 @@
+import { requestFillOperations } from '@/ai/client'
+import { AIFillMessageResponse, AIFillRequest, AI_FILL_REQUEST } from '@/ai/messages'
+import { getAIConfig, restrictAIStorageAccess } from '@/utils/storage'
+
 export default defineBackground(() => {
   const connections: Record<string, chrome.runtime.Port> = {}
+
+  restrictAIStorageAccess().catch((error) => {
+    console.warn('[FormilyAutofill] restrict AI storage failed:', error)
+  })
 
   chrome.runtime.onConnect.addListener(function (port) {
     if (port.name === '@formily-autofill') {
@@ -31,7 +39,39 @@ export default defineBackground(() => {
 
   // 从内容脚本接收消息，并转发至当前
   // 标签页对应的开发者工具网页
-  chrome.runtime.onMessage.addListener(function (request, sender) {
+  chrome.runtime.onMessage.addListener(function (
+    request: unknown,
+    sender,
+    sendResponse: (response: AIFillMessageResponse) => void
+  ) {
+    if (request && typeof request === 'object' && (request as Partial<AIFillRequest>).type === AI_FILL_REQUEST) {
+      if (sender.tab) {
+        console.warn('[FormilyAutofill] rejected AI request from content script')
+        return false
+      }
+
+      const aiRequest = request as AIFillRequest
+      if (
+        !aiRequest.formGraph ||
+        typeof aiRequest.formGraph !== 'object' ||
+        typeof aiRequest.instruction !== 'string'
+      ) {
+        sendResponse({ ok: false, error: 'AI 请求参数无效' })
+        return false
+      }
+
+      getAIConfig()
+        .then((config) => requestFillOperations(config, aiRequest.formGraph, aiRequest.instruction))
+        .then((data) => sendResponse({ ok: true, data }))
+        .catch((error: unknown) =>
+          sendResponse({
+            ok: false,
+            error: error instanceof Error ? error.message : 'AI 请求失败',
+          })
+        )
+      return true
+    }
+
     // 来自内容脚本的消息应该已经设置 sender.tab
     if (sender.tab) {
       const tabId = sender.tab.id
@@ -43,6 +83,6 @@ export default defineBackground(() => {
     } else {
       console.info('sender.tab 未定义。')
     }
-    return true
+    return false
   })
 })

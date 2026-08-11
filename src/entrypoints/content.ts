@@ -12,7 +12,9 @@ export default defineContentScript({
     window.addEventListener(
       'message',
       (event) => {
-        chrome.runtime.sendMessage(event.data)
+        if (event.source === window && event.data?.source === '@formily-autofill') {
+          chrome.runtime.sendMessage(event.data)
+        }
       },
       false
     )
